@@ -47,7 +47,27 @@ A comprehensive and integrated approach to the annotation and analysis of ticks 
 # species.tsv
 GCA.       speci
 ```
+First, prepare an input file in the CSV format that looks as follows:
 
+`assemblies_sheet.csv`:
+
+```csv
+prefix,assembly,taxid
+BU_ATCC8492VPI0062,/path/to/BU_ATCC8492VPI0062_NT5002.fa,820
+EC_ASM584v2,/path/to/GCF_000005845.2.fna,562
+...
+```
+
+Here,
+`prefix` is the prefix and the locus tag that will be assigned to output files and proteins during the annotation process;
+maximum length is 24 characters;
+
+`assembly` is the path to where the assembly file in FASTA format is located;
+
+`taxid` is the NCBI TaxId (if the species-level TaxId is not known, a TaxId for a higher taxonomic level can be used). If the taxonomy is known, look up the TaxID [here](https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi).
+
+
+You can run the following script to batch download data files.
 ```
 bash scripts/gca.sh species.tsv
 ```
@@ -57,18 +77,21 @@ bash scripts/gca.sh species.tsv
 #### 2.1 BUSCO v5.8.3
 - genome.fna
 - arachnida_odb12
-
-‵‵‵
-
+  
+You can install software by miniconda.
 ```
-
+conda create -n busco -y
+conda activate busco
+conda install -c bioconda -c conda-forge busco -y
+```
 ```shell
-busco -i ./tickdb/genome.fna -l /home/yf/arachnida_odb12 -o ./busco_output -m geno --cpu 12 --offline
+busco -i ./tickdb/genome.fna -l /home/wyf/arachnida_odb12 -o ./busco_output -m geno --cpu 32 --offline
 ```
 ```bash
 cat ./busco_output/short_summary.specific.arachnida_odb12.out.txt
 ```
 or you can try compleasm, a faster and more accurate reimplementation of BUSCO
+
 #### 2.2 compleasm
 ```bash
 python compleasm.py run -t 16 -l arachnida -L ./arachnida_odb12 -a genome.fna -o compleasm_output
@@ -101,6 +124,7 @@ Convert hard masking into soft masking:
 ```bash
 perl ./util/make_masked.pl -genome genome.fna -minlen 80 -hardmask 0 -t 10 -rmout genome.fna.mod.EDTA.TEanno.out
 ```
+
 #### 3.2 HiTE
 - genome.fna
 
@@ -135,13 +159,13 @@ output_dir/
 
 Create a environment called egapx:
 ```bash
-mamba create -n egapx -c bioconda python pyyaml nextflow singularity -y
-mamba activate egapx
+conda create -n egapx -c bioconda python pyyaml nextflow singularity -y
+conda activate egapx
 ```
 
 Download the required mirror:
 ```bash
-singularity pull docker://docker.1ms.run/ncbi/egapx:0.3.2-alpha
+singularity pull docker://docker.1ms.run/ncbi/egapx:0.4.0-alpha
 ```
 
 Clone the EGAPx repo:
@@ -172,7 +196,7 @@ Input to EGAPx is in the form of a YAML file. The following are the _required_ k
   genome: path to assembled genome in FASTA format
   taxid: NCBI Taxonomy identifier of the target organism 
   reads: RNA-seq data
-  annotation_provider: Yf
+  annotation_provider: wyf
   annotation_name_prefix: organise name
   locus_tag_prefix: egapxtmp
   ```
@@ -194,15 +218,11 @@ python3 ./egapx/ui/egapx.py input_tick.yaml -e singularity -w anno -o egapx_outp
   ```
 
   ```bash
-echo "process.container = '/path_to_/egapx_0.3.2-alpha.sif'" >> egapx_config/biowulf_cluster.config
+echo "process.container = '/path_to_/egapx_0.4.0-alpha.sif'" >> egapx_config/singularity.config
   ```
 
   ```bash
-echo "process.container = '/path_to_/egapx_0.3.2-alpha.sif'" >> egapx_config/singularity.config
-  ```
-
-  ```bash
-python3 ./egapx/ui/egapx.py input_tick.yaml -e singularity -w anno -o egapx_output -lc ./egapx/local_cache
+python3 ./egapx/ui/egapx.py input.yaml -e singularity -w anno -o egapx_output -lc ./egapx/local_cache
   ```
 
 Output:
@@ -236,7 +256,7 @@ Description of the outputs:
 * `complete.proteins.faa`: annotated protein products in FASTA format.
 * `annotated_genome.asn`: final annotation set in ASN1 format.
 ------
-### 05 Standardized annotation of Tick-Borne Bacterial Genomes by Bakta
+### 05 Standardized annotation of Tick-Borne Bacteria by Bakta
 - genome.fna
 - db-light
 
