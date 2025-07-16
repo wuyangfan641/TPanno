@@ -335,10 +335,11 @@ Finally, in the current directory, two files will be generated: trinity_out_dir.
 
 ------
 
-### 07 LoVis4u: a locus visualization tool for comparative genomics and coverage proffles
+### 07 Locus visualization
+#### LoVis4u
 - genome.gff
-- The development version is available at github :
 
+The development version is available at github :
 ```
 git clone https://github.com/art-egorov/lovis4u.git
 cd lovis4u
