@@ -112,7 +112,7 @@ By default, the output folder will have a tab-delimited file `quality_report.tsv
 
 ------
 
-### 03 Repeat annotation and genome mask
+### 03 Repeat annotation & genome mask
 #### 3.1 EDTA 
 - genome.fna
 
@@ -151,10 +151,11 @@ output_dir/
 ```
 ------
 
-### 04 Structural annotation of the tick genome by EGAPx
-- genome.fa.masked
-- input_tick.yaml
-- egapx_0.3.2-alpha.sif
+### 04 Gene prediction & Genomic structural annotation
+#### 4.1 Eukaryotic genomic structural annotation by EGAPx
+- genome.fna.masked
+- input.yaml
+- egapx_0.4.0-alpha.sif
 - local_cache
 
 Create a environment called egapx:
@@ -256,7 +257,7 @@ Description of the outputs:
 * `complete.proteins.faa`: annotated protein products in FASTA format.
 * `annotated_genome.asn`: final annotation set in ASN1 format.
 ------
-### 05 Standardized annotation of Tick-Borne Bacteria by Bakta
+#### 4.2 Prokaryotic genomic structural annotation by Bakta
 - genome.fna
 - db-light
 
@@ -274,6 +275,36 @@ bakta --db ./db-light --output ./bakta_output ./bacteriadb/genome.fna
 It provides dbxref-rich, sORF-including and taxon-independent annotations in machine-readable JSON & bioinformatics standard file formats for automated downstream analysis.
 
 ------
+#### 4.3 Automated annotation of Virus Genomes by geNomad
+- genome.fna
+- genomad_db
+
+geNomad depends on a database that contains the profiles of the markers that are used to classify sequences, their taxonomic information, their functional annotation, etc. So, you should first download the database to your current directory:
+```bash
+genomad download-database .
+```
+The database will be contained within the genomad_db directory. 
+
+geNomad works by executing a series of modules sequentially , but we provide a convenient end-to-end command that will execute the entire pipeline for you in one go.
+```bash
+genomad end-to-end --cleanup --splits 8 ./virusdb/genome.fna.gz ./genomad_output ./genomad_db
+```
+The results will be written inside the genomad_output directory.
+
+### 05 Function annotation
+
+#### 5.1 eggNOG-mapper
+- pep_no_alt.fa
+
+http://eggnog-mapper.embl.de/
+
+#### 5.2 PANNZER
+
+http://ekhidna2.biocenter.helsinki.fi/sanspanz/
+
+------
+
+
 ### 06 LoVis4u: a locus visualization tool for comparative genomics and coverage proffles
 - genome.gff
 - The development version is available at github :
@@ -432,18 +463,3 @@ some details about loVis4u:
 The LoVis4u tool provides a fast and automated genomic visualization solution by combining a command-line interface and Python API. 
 
 ------
-### 07 Automated annotation of Tick-Borne Virus Genomes by geNomad
-- genome.fna
-- genomad_db
-
-geNomad depends on a database that contains the profiles of the markers that are used to classify sequences, their taxonomic information, their functional annotation, etc. So, you should first download the database to your current directory:
-```bash
-genomad download-database .
-```
-The database will be contained within the genomad_db directory. 
-
-geNomad works by executing a series of modules sequentially , but we provide a convenient end-to-end command that will execute the entire pipeline for you in one go.
-```bash
-genomad end-to-end --cleanup --splits 8 ./virusdb/genome.fna.gz ./genomad_output ./genomad_db
-```
-The results will be written inside the genomad_output directory.
