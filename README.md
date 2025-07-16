@@ -41,12 +41,10 @@ A comprehensive and integrated approach to the annotation and analysis of ticks 
 + RNA-seq (https://www.ncbi.nlm.nih.gov/sra/)
 
 #### 1.4 Data Download
-- species.tsv
-- gca.sh
-```
-# species.tsv
-GCA.       speci
-```
+- assemblies_sheet.tsv
+- gca_fna.sh
+- gca_faa.sh
+
 First, prepare an input file in the CSV format that looks as follows:
 
 `assemblies_sheet.csv`:
@@ -69,7 +67,8 @@ maximum length is 24 characters;
 
 You can run the following script to batch download data files.
 ```
-bash scripts/gca.sh species.tsv
+bash scripts/gca_fna.sh species.tsv
+bash scripts/gca_faa.sh species.tsv
 ```
 ------
 
@@ -291,21 +290,45 @@ genomad end-to-end --cleanup --splits 8 ./virusdb/genome.fna.gz ./genomad_output
 ```
 The results will be written inside the genomad_output directory.
 
+------
 ### 05 Function annotation
 
 #### 5.1 eggNOG-mapper
-- pep_no_alt.fa
+- pep.faa
 
 http://eggnog-mapper.embl.de/
 
 #### 5.2 PANNZER
+_ pep.faa
 
 http://ekhidna2.biocenter.helsinki.fi/sanspanz/
 
 ------
 
+### 06 Transcript analysis
+#### 6.1 sra-toolkit
+- https://www.ncbi.nlm.nih.gov/sra
 
-### 06 LoVis4u: a locus visualization tool for comparative genomics and coverage proffles
+```
+sudo apt install sra-toolkit
+prefetch SRR123456
+fasterq-dump --split-3 SRR123456/SRR123456.sra
+```
+#### 6.2 Trinity
+```
+conda create -n trinity python=3.8 -y
+conda activate trinity
+conda install -c bioconda -c conda-forge trinity -y
+```
+Run Trinity
+```
+Trinity --seqType fq --max_memory 200G --left SRR123456_1.fastq --right SRR123456_2.fastq --CPU 28 --trimmomatic --full_cleanup
+```
+Finally, in the current directory, two files will be generated: trinity_out_dir.Trinity.fasta and trinity_out_dir.Trinity.fasta.gene_trans_map. The former is the final assembled reference transcript, which can be used for downstream analysis.
+
+------
+
+### 07 LoVis4u: a locus visualization tool for comparative genomics and coverage proffles
 - genome.gff
 - The development version is available at github :
 
