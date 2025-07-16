@@ -309,7 +309,7 @@ http://ekhidna2.biocenter.helsinki.fi/sanspanz/
 
 ------
 
-### 06 Transcript analysis
+### 06 Transcriptomic integration
 #### 6.1 sra-toolkit
 - https://www.ncbi.nlm.nih.gov/sra
 - SRRxxx
