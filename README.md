@@ -47,28 +47,25 @@ A comprehensive and integrated approach to the annotation and analysis of ticks 
 
 First, prepare an input file in the CSV format that looks as follows:
 
-`assemblies_sheet.csv`:
+`assemblies_sheet.tsv`:
 
-```csv
-prefix,assembly,taxid
-BU_ATCC8492VPI0062,/path/to/BU_ATCC8492VPI0062_NT5002.fa,820
-EC_ASM584v2,/path/to/GCF_000005845.2.fna,562
+```tsv
+prefix assembly
 ...
 ```
-
 Here,
 `prefix` is the prefix and the locus tag that will be assigned to output files and proteins during the annotation process;
 maximum length is 24 characters;
 
-`assembly` is the path to where the assembly file in FASTA format is located;
+`assembly` is the GCA number of the GenBank genome you need to download.
 
 `taxid` is the NCBI TaxId (if the species-level TaxId is not known, a TaxId for a higher taxonomic level can be used). If the taxonomy is known, look up the TaxID [here](https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi).
 
 
 You can run the following script to batch download data files.
 ```
-bash scripts/gca_fna.sh species.tsv
-bash scripts/gca_faa.sh species.tsv
+bash scripts/gca_fna.sh assemblies_sheet.tsv
+bash scripts/gca_faa.sh assemblies_sheet.tsv
 ```
 ------
 
@@ -156,6 +153,8 @@ output_dir/
 - input.yaml
 - egapx_0.4.0-alpha.sif
 - local_cache
+- taxi
+> `taxid` is the NCBI TaxId (if the species-level TaxId is not known, a TaxId for a higher taxonomic level can be used). If the taxonomy is known, look up the TaxID [here](https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi).
 
 Create a environment called egapx:
 ```bash
@@ -299,7 +298,7 @@ The results will be written inside the genomad_output directory.
 http://eggnog-mapper.embl.de/
 
 #### 5.2 PANNZER
-_ pep.faa
+- pep.faa
 
 http://ekhidna2.biocenter.helsinki.fi/sanspanz/
 
@@ -308,13 +307,16 @@ http://ekhidna2.biocenter.helsinki.fi/sanspanz/
 ### 06 Transcript analysis
 #### 6.1 sra-toolkit
 - https://www.ncbi.nlm.nih.gov/sra
+- SRRxxx
 
 ```
 sudo apt install sra-toolkit
-prefetch SRR123456
-fasterq-dump --split-3 SRR123456/SRR123456.sra
+prefetch SRRxxx
+fasterq-dump --split-3 SRRxxx/SRRxxx.sra
 ```
 #### 6.2 Trinity
+- SRRxxx_1.fastq
+- SRRxxx_2.fastq
 ```
 conda create -n trinity python=3.8 -y
 conda activate trinity
@@ -322,7 +324,7 @@ conda install -c bioconda -c conda-forge trinity -y
 ```
 Run Trinity
 ```
-Trinity --seqType fq --max_memory 200G --left SRR123456_1.fastq --right SRR123456_2.fastq --CPU 28 --trimmomatic --full_cleanup
+Trinity --seqType fq --max_memory 200G --left SRRxxx_1.fastq --right SRRxxx_2.fastq --CPU 28 --trimmomatic --full_cleanup
 ```
 Finally, in the current directory, two files will be generated: trinity_out_dir.Trinity.fasta and trinity_out_dir.Trinity.fasta.gene_trans_map. The former is the final assembled reference transcript, which can be used for downstream analysis.
 
