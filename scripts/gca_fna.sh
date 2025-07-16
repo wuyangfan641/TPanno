@@ -21,7 +21,7 @@ if [[ ! -f "$input_file" ]]; then
 fi
 
 # 创建输出目录
-output_dir="proteins"
+output_dir="genomes"
 mkdir -p "$output_dir"
 
 # 读取并处理每一行
@@ -64,7 +64,7 @@ while IFS=$'\t' read -r species gca || [[ -n "$species" ]]; do
         unzip -q "$zip_file" -d "$temp_dir"
 
         # 在解压文件中查找 .fna 文件
-        fna_file=$(find "$temp_dir/ncbi_dataset/data" -type f -name "*.faa" 2>/dev/null)
+        fna_file=$(find "$temp_dir/ncbi_dataset/data" -type f -name "*.fna" 2>/dev/null)
 
         if [[ -f "$fna_file" ]]; then
             # 移动并重命名文件
