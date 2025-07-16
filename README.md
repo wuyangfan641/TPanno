@@ -51,15 +51,12 @@ First, prepare an input file in the CSV format that looks as follows:
 
 ```tsv
 prefix assembly
-...
 ```
 Here,
 `prefix` is the prefix and the locus tag that will be assigned to output files and proteins during the annotation process;
 maximum length is 24 characters;
 
 `assembly` is the GCA number of the GenBank genome you need to download.
-
-`taxid` is the NCBI TaxId (if the species-level TaxId is not known, a TaxId for a higher taxonomic level can be used). If the taxonomy is known, look up the TaxID [here](https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi).
 
 
 You can run the following script to batch download data files.
@@ -181,7 +178,7 @@ or download it mannually:
 ```shell
 mkdir local_cache
 cd local_cache
-mkdir gnomon ortholog_references target_proteins taxonomy reference_sets misc
+mkdir gnomon ortholog_references target_proteins taxonomy reference_sets misc cmseaeagesrch busco_downloads/lineages
 rsync --copy-links --recursive --times --verbose rsync://ftp.ncbi.nlm.nih.gov/genomes/TOOLS/EGAP/support_data/gnomon/2 gnomon/
 rsync --copy-links --recursive --times --verbose rsync://ftp.ncbi.nlm.nih.gov/genomes/TOOLS/EGAP/support_data/ortholog_references/2 ortholog_references/
 rsync --copy-links --recursive --times --verbose rsync://ftp.ncbi.nlm.nih.gov/genomes/TOOLS/EGAP/support_data/target_proteins/2 target_proteins/
@@ -189,7 +186,11 @@ rsync --copy-links --recursive --times --verbose rsync://ftp.ncbi.nlm.nih.g
 rsync --copy-links --recursive --times --verbose rsync://ftp.ncbi.nlm.nih.gov/genomes/TOOLS/EGAP/support_data/reference_sets/2 reference_sets/
 rsync --copy-links --recursive --times --verbose rsync://ftp.ncbi.nlm.nih.gov/genomes/TOOLS/EGAP/support_data/misc/2 misc/
 ```
-
+or you can run my scripts:
+```
+chmod +x -R scripts/
+bash setup_local_cache.sh
+```
 Input to EGAPx is in the form of a YAML file. The following are the _required_ key-value pairs for the input file:
   ```shell
   genome: path to assembled genome in FASTA format
