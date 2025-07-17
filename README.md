@@ -306,13 +306,12 @@ The results will be written inside the genomad_output directory.
 ### 05 Function annotation
 
 #### 5.1 eggNOG-mapper
-- pep.faa
 - http://eggnog-mapper.embl.de/
+- pep.faa
 
 #### 5.2 PANNZER
-- pep.faa
 - http://ekhidna2.biocenter.helsinki.fi/sanspanz/
-
+- pep.faa
 ------
 
 ### 06 Transcriptomic integration
