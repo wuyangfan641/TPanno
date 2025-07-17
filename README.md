@@ -300,13 +300,11 @@ The results will be written inside the genomad_output directory.
 
 #### 5.1 eggNOG-mapper
 - pep.faa
-
-http://eggnog-mapper.embl.de/
+- http://eggnog-mapper.embl.de/
 
 #### 5.2 PANNZER
 - pep.faa
-
-http://ekhidna2.biocenter.helsinki.fi/sanspanz/
+- http://ekhidna2.biocenter.helsinki.fi/sanspanz/
 
 ------
 
