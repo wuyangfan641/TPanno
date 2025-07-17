@@ -30,6 +30,7 @@
 + `eggNOG-mapper` (http://eggnog-mapper.embl.de/)
 + `PANNZER` (http://ekhidna2.biocenter.helsinki.fi/sanspanz/)
 5. Transcriptomic integration:
++ `sra-toolkit` (https://github.com/ncbi/sra-tools.git）
 + `Trinity` (https://github.com/trinityrnaseq/trinityrnaseq)
 6. Comparative visualization:
 + `LoVis4u` (https://github.com/art-egorov/lovis4u)
