@@ -335,8 +335,126 @@ Finally, in the current directory, two files will be generated: trinity_out_dir.
 
 ------
 
-### 07 Locus visualization
-#### LoVis4u
+### 07 Comparative visualization
+#### 7.1 JCVI : A Versatile Toolkit for Comparative Genomics Analysis
+- genome.fa
+- genome.gff3
+- genome.cds
+
+Use pip to install the latest development version directly from this repo.
+```
+pip install git+https://github.com/tanghaibao/jcvi.git
+pip install jcv
+```
+Alternatively, if you want to install in development mode.
+```
+git clone git://github.com/tanghaibao/jcvi.git && cd jcvi
+pip install -e '.[tests]'
+```
+If installed successfully, you can check the version with:
+```
+jcvi --version
+```
+
+
+Convert the annotation file format to BED
+```
+python3 -m jcvi.formats.gff bed --type=mRNA --key=ID data/Dendrolimus/Dhou/no_alt.gff -o dhou.bed
+python3 -m jcvi.formats.gff bed --type=mRNA --key=ID data/Dendrolimus/Dkik/Dkik.gff3 -o dkik.bed
+python3 -m jcvi.formats.gff bed --type=mRNA --key=ID data/Dendrolimus/Dpin/Dpin.gff3 -o dpin.bed
+python3 -m jcvi.formats.gff bed --type=mRNA --key=ID data/Dendrolimus/Dpun/Dpun.gff3 -o dpun.bed
+python3 -m jcvi.formats.gff bed --type=mRNA --key=ID data/Dendrolimus/Dtab/Dtab.gff3 -o dtab.bed
+```
+Extract target homologous chromosomes
+```
+awk '{if($1=="CM077132.1"){print}}' bed/dhou.bed > dhou.bed
+awk '{if($1=="LG14"){print}}' bed/dkik.bed > dkik.bed
+awk '{if($1=="chromosome11"){print}}' bed/dpin.bed > dpin.bed
+awk '{if($1=="chr16"){print}}' bed/dpun.bed > dpun.bed
+awk '{if($1=="chr14"){print}}' bed/dtab.bed > dtab.bed
+```
+合并
+```
+python3 -m jcvi.formats.bed merge dhou.bed dkik.bed dpin.bed dpun.bed dtab.bed -o all.bed
+```
+文件夹格式如下
+```
+.
+├── all.bed
+├── bed
+│	 ├── dhou.bed
+│	 ├── dkik.bed
+│	 ├── dpin.bed
+│	 ├── dpun.bed
+│	 └── dtab.bed
+├── dhou.bed
+├── dhou.cds
+├── dkik.bed
+├── dkik.cds
+├── dpin.bed
+├── dpin.cds
+├── dpun.bed
+├── dpun.cds
+├── dtab.bed
+└── dtab.cds
+```
+#以 Dtab 为参考
+```
+python3 -m jcvi.compara.catalog ortholog dtab dhou --no_strip_names
+python3 -m jcvi.compara.catalog ortholog dtab dkik --no_strip_names
+python3 -m jcvi.compara.catalog ortholog dtab dpin --no_strip_names
+python3 -m jcvi.compara.catalog ortholog dtab dpun --no_strip_names
+
+python3 -m jcvi.compara.synteny mcscan dtab.bed dtab.dhou.lifted.anchors --iter=1 -o dtab.dhou.block
+python3 -m jcvi.compara.synteny mcscan dtab.bed dtab.dkik.lifted.anchors --iter=1 -o dtab.dkik.block
+python3 -m jcvi.compara.synteny mcscan dtab.bed dtab.dpin.lifted.anchors --iter=1 -o dtab.dpin.block
+python3 -m jcvi.compara.synteny mcscan dtab.bed dtab.dpun.lifted.anchors --iter=1 -o dtab.dpun.block
+```
+创建 block 文件
+```
+python3 -m jcvi.formats.base join dtab.dhou.block dtab.dkik.block dtab.dpin.block dtab.dpun.block --noheader
+python3 -m jcvi.formats.base join dtab.dhou.block dtab.dkik.block dtab.dpin.block dtab.dpun.block --noheader | awk '{print $1"\t"$2"\t"$4"\t"$6"\t"$8}' > all.block
+```
+格式如下
+```
+Dtab034680.1....
+Dtab034690.1....
+Dtab034700.1 Dhou196570.1.       Dpin033790.1.
+Dtab034710.1 Dhou196550.1 Dkik193890.1 Dpin033770.1 Dpun055030.1
+Dtab034720.1 Dhou196530.1 Dkik193880.1 Dpin033730.1 Dpun055010.1
+Dtab034730.1 Dhou196510.1.       Dpin033710.1 Dpun055080.2
+Dtab034740.1 Dhou196500.1 Dkik193870.1 Dpin033700.1.
+Dtab034750.1 Dhou196490.1 Dkik193860.1 Dpin033690.1 Dpun055000.1
+Dtab034760.1 Dhou196480.1 Dkik193850.1 Dpin033680.1.
+Dtab034770.1 Dhou196460.2 Dkik193820.1 Dpin033660.1 Dpun054990.2
+Dtab034780.1....
+Dtab034790.1 Dhou196410.1...
+Dtab034800.1 Dhou196390.1 Dkik193800.1 Dpin033600.1 Dpun054980.1
+Dtab034810.1.       Dkik193790.1 Dpin033590.1 Dpun054970.1
+Dtab034820.1 Dhou196380.1 Dkik193780.1 Dpin033580.1 Dpun054960.1
+Dtab034830.1 Dhou196370.1 Dkik193770.1 Dpin033570.1 Dpun054930.1
+Dtab034840.1 Dhou196360.1 Dkik193760.1 Dpin033550.1 Dpun055060.1
+```
+layout 文件
+```
+#x, y, rotation, ha, va, color, ratio, label
+0.5, 0.1, 0, left, center, green, 4, Dtab
+0.5, 0.3, 0, left, center, green, 1, Dpun
+0.5, 0.5, 0, left, center, green, 4, Dpin
+0.5, 0.7, 0, left, center, green, 4, Dkik
+0.5, 0.9, 0, left, center, green, 4, Dhou
+#edges
+e, 0, 1
+e, 1, 2
+e, 2, 3
+e, 3, 4
+```
+绘图，把要高亮的基因标注出来
+```
+python3 -m jcvi.graphics.synteny hgt.block all.bed hgt.layout --genelabelsize=6 --genelabels=Dtab039240.1,Dtab039290.1,Dpun055500.1,Dpin024530.1,Dpin024520.1,Dpin024400.1,Dkik186680.1,Dkik186600.1,Dhou188030.1,Dhou187960.1
+```
+
+#### 7.2 LoVis4u
 - genome.gff
 
 The development version is available at github :
