@@ -358,7 +358,7 @@ jcvi --version
 ```
 
 
-Convert the annotation file format to BED
+Convert the annotation file format to BED:
 ```
 python3 -m jcvi.formats.gff bed --type=mRNA --key=ID data/Dendrolimus/Dhou/no_alt.gff -o dhou.bed
 python3 -m jcvi.formats.gff bed --type=mRNA --key=ID data/Dendrolimus/Dkik/Dkik.gff3 -o dkik.bed
@@ -366,7 +366,7 @@ python3 -m jcvi.formats.gff bed --type=mRNA --key=ID data/Dendrolimus/Dpin/Dpin.
 python3 -m jcvi.formats.gff bed --type=mRNA --key=ID data/Dendrolimus/Dpun/Dpun.gff3 -o dpun.bed
 python3 -m jcvi.formats.gff bed --type=mRNA --key=ID data/Dendrolimus/Dtab/Dtab.gff3 -o dtab.bed
 ```
-Extract target homologous chromosomes
+Extract target homologous chromosomes:
 ```
 awk '{if($1=="CM077132.1"){print}}' bed/dhou.bed > dhou.bed
 awk '{if($1=="LG14"){print}}' bed/dkik.bed > dkik.bed
@@ -374,7 +374,7 @@ awk '{if($1=="chromosome11"){print}}' bed/dpin.bed > dpin.bed
 awk '{if($1=="chr16"){print}}' bed/dpun.bed > dpun.bed
 awk '{if($1=="chr14"){print}}' bed/dtab.bed > dtab.bed
 ```
-Merge
+Merge:
 ```
 python3 -m jcvi.formats.bed merge dhou.bed dkik.bed dpin.bed dpun.bed dtab.bed -o all.bed
 ```
@@ -399,7 +399,7 @@ Folder format:
 ├── dtab.bed
 └── dtab.cds
 ```
-Base on `Dtab` as the reference
+Base on `Dtab` as the reference.
 ```
 python3 -m jcvi.compara.catalog ortholog dtab dhou --no_strip_names
 python3 -m jcvi.compara.catalog ortholog dtab dkik --no_strip_names
@@ -411,12 +411,12 @@ python3 -m jcvi.compara.synteny mcscan dtab.bed dtab.dkik.lifted.anchors --iter=
 python3 -m jcvi.compara.synteny mcscan dtab.bed dtab.dpin.lifted.anchors --iter=1 -o dtab.dpin.block
 python3 -m jcvi.compara.synteny mcscan dtab.bed dtab.dpun.lifted.anchors --iter=1 -o dtab.dpun.block
 ```
-Create `block` file
+Create `block` file:
 ```
 python3 -m jcvi.formats.base join dtab.dhou.block dtab.dkik.block dtab.dpin.block dtab.dpun.block --noheader
 python3 -m jcvi.formats.base join dtab.dhou.block dtab.dkik.block dtab.dpin.block dtab.dpun.block --noheader | awk '{print $1"\t"$2"\t"$4"\t"$6"\t"$8}' > all.block
 ```
-格式如下
+File format:
 ```
 Dtab034680.1....
 Dtab034690.1....
@@ -436,7 +436,7 @@ Dtab034820.1 Dhou196380.1 Dkik193780.1 Dpin033580.1 Dpun054960.1
 Dtab034830.1 Dhou196370.1 Dkik193770.1 Dpin033570.1 Dpun054930.1
 Dtab034840.1 Dhou196360.1 Dkik193760.1 Dpin033550.1 Dpun055060.1
 ```
-`layout` file
+`layout` file：
 ```
 #x, y, rotation, ha, va, color, ratio, label
 0.5, 0.1, 0, left, center, green, 4, Dtab
@@ -450,12 +450,12 @@ e, 1, 2
 e, 2, 3
 e, 3, 4
 ```
-Plot and label the genes to be highlighted
+Plot and label the genes to be highlighted：
 ```
 python3 -m jcvi.graphics.synteny hgt.block all.bed hgt.layout --genelabelsize=6 --genelabels=Dtab039240.1,Dtab039290.1,Dpun055500.1,Dpin024530.1,Dpin024520.1,Dpin024400.1,Dkik186680.1,Dkik186600.1,Dhou188030.1,Dhou187960.1
 ```
 
-#### 7.2 LoVis4u
+#### 7.2 LoVis4u: a locus visualization tool for comparative genomics and coverage profiles
 - genome.gff
 
 The development version is available at github :
