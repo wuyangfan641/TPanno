@@ -24,6 +24,7 @@
 + Bakta (https://github.com/oschwengers/bakta)
 + geNomad (https://github.com/apcamargo/genomad)
 + LoVis4u (https://github.com/art-egorov/lovis4u)
++ JCVI (https://github.com/tanghaibao/jcvi)
 + Trinity （https://github.com/trinityrnaseq/trinityrnaseq）
 + DIAMOND (http://github.com/bbuchfink/diamond/)
 + NCBI BLAST+ (https://blast.ncbi.nlm.nih.gov/Blast.cgi)
@@ -373,11 +374,11 @@ awk '{if($1=="chromosome11"){print}}' bed/dpin.bed > dpin.bed
 awk '{if($1=="chr16"){print}}' bed/dpun.bed > dpun.bed
 awk '{if($1=="chr14"){print}}' bed/dtab.bed > dtab.bed
 ```
-合并
+Merge
 ```
 python3 -m jcvi.formats.bed merge dhou.bed dkik.bed dpin.bed dpun.bed dtab.bed -o all.bed
 ```
-文件夹格式如下
+Folder format:
 ```
 .
 ├── all.bed
@@ -398,7 +399,7 @@ python3 -m jcvi.formats.bed merge dhou.bed dkik.bed dpin.bed dpun.bed dtab.bed -
 ├── dtab.bed
 └── dtab.cds
 ```
-#以 Dtab 为参考
+Base on `Dtab` as the reference
 ```
 python3 -m jcvi.compara.catalog ortholog dtab dhou --no_strip_names
 python3 -m jcvi.compara.catalog ortholog dtab dkik --no_strip_names
@@ -410,7 +411,7 @@ python3 -m jcvi.compara.synteny mcscan dtab.bed dtab.dkik.lifted.anchors --iter=
 python3 -m jcvi.compara.synteny mcscan dtab.bed dtab.dpin.lifted.anchors --iter=1 -o dtab.dpin.block
 python3 -m jcvi.compara.synteny mcscan dtab.bed dtab.dpun.lifted.anchors --iter=1 -o dtab.dpun.block
 ```
-创建 block 文件
+Create `block` file
 ```
 python3 -m jcvi.formats.base join dtab.dhou.block dtab.dkik.block dtab.dpin.block dtab.dpun.block --noheader
 python3 -m jcvi.formats.base join dtab.dhou.block dtab.dkik.block dtab.dpin.block dtab.dpun.block --noheader | awk '{print $1"\t"$2"\t"$4"\t"$6"\t"$8}' > all.block
@@ -435,7 +436,7 @@ Dtab034820.1 Dhou196380.1 Dkik193780.1 Dpin033580.1 Dpun054960.1
 Dtab034830.1 Dhou196370.1 Dkik193770.1 Dpin033570.1 Dpun054930.1
 Dtab034840.1 Dhou196360.1 Dkik193760.1 Dpin033550.1 Dpun055060.1
 ```
-layout 文件
+`layout` file
 ```
 #x, y, rotation, ha, va, color, ratio, label
 0.5, 0.1, 0, left, center, green, 4, Dtab
@@ -449,7 +450,7 @@ e, 1, 2
 e, 2, 3
 e, 3, 4
 ```
-绘图，把要高亮的基因标注出来
+Plot and label the genes to be highlighted
 ```
 python3 -m jcvi.graphics.synteny hgt.block all.bed hgt.layout --genelabelsize=6 --genelabels=Dtab039240.1,Dtab039290.1,Dpun055500.1,Dpin024530.1,Dpin024520.1,Dpin024400.1,Dkik186680.1,Dkik186600.1,Dhou188030.1,Dhou187960.1
 ```
@@ -468,7 +469,7 @@ python3 -m pip install -e . -i https://pypi.tuna.tsinghua.edu.cn/simple
 lovis4u --linux
 ```
 
-some details about loVis4u:
+`some details` about loVis4u:
 ```
 [MANDATORY ARGUMENTS]
 -gff <folder>
