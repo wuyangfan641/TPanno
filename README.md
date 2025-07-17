@@ -16,21 +16,28 @@
 
 ### 01 Prerequisites
 #### 1.1 Software
+1. Genome assessment:
 + BUSCO (https://busco.ezlab.org/) (compleasm(https://github.com/huangnengCSU/compleasm), compleasm: a faster and more accurate reimplementation of BUSCO)
 + CheckM2 (https://github.com/chklovski/checkm2)
+2. Repeat annotation & genome mask:
 + EDTA (https://github.com/oushujun/EDTA)
 + HiTE (https://github.com/CSU-KangHu/HiTE)
+3. Gene prediction & Genomic structural annotation:
 + egapx (https://github.com/ncbi/egapx)
 + Bakta (https://github.com/oschwengers/bakta)
 + geNomad (https://github.com/apcamargo/genomad)
+4. Function annotation:
++ eggNOG-mapper (http://eggnog-mapper.embl.de/)
++ PANNZER (http://ekhidna2.biocenter.helsinki.fi/sanspanz/)
+5. Transcriptomic integration:
++ Trinity (https://github.com/trinityrnaseq/trinityrnaseq)
+6. Comparative visualization:
 + LoVis4u (https://github.com/art-egorov/lovis4u)
 + JCVI (https://github.com/tanghaibao/jcvi)
-+ Trinity （https://github.com/trinityrnaseq/trinityrnaseq）
+7. Others:
 + DIAMOND (http://github.com/bbuchfink/diamond/)
 + NCBI BLAST+ (https://blast.ncbi.nlm.nih.gov/Blast.cgi)
 + gffread (https://github.com/gpertea/gffread)
-+ eggNOG-mapper(http://eggnog-mapper.embl.de/)
-+ PANNZER (http://ekhidna2.biocenter.helsinki.fi/sanspanz/)
 
 
 #### 1.2 Database
