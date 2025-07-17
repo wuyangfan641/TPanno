@@ -153,7 +153,7 @@ output_dir/
 - input.yaml
 - egapx_0.4.0-alpha.sif
 - local_cache
-- taxi
+- taxid
 > `taxid` is the NCBI TaxId (if the species-level TaxId is not known, a TaxId for a higher taxonomic level can be used). If the taxonomy is known, look up the TaxID [here](https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi).
 
 Create a environment called egapx:
