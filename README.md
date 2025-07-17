@@ -1,5 +1,5 @@
 # TPanno
-## A standardized and scalable framework for the comprehensive multi-omics analysis of ticks and tick-borne pathogens
+## A standardized and scalable workflow of the comprehensive multi-omics analysis for TickPathDB.
 > ***Title: TickPathDB:A near-comprehensive mult-omics database for hard ticks and tick-borne pathogens***
 >  
 > ***By Yangfan Wu***
