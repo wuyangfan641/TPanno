@@ -1,6 +1,6 @@
 # TPanno
 ## A standardized and scalable workflow of the comprehensive multi-omics analysis for TickPathDB.
-> ***Title: TickPathDB:A near-comprehensive mult-omics database for hard ticks and tick-borne pathogens***
+> ***Title: TickPathDB：A Comprehensive Multi-Omics Platform for Ticks and Tick-Borne Pathogens***
 >  
 > ***By Yangfan Wu***
 > 
@@ -10,7 +10,6 @@
 >
 > ***Contact us: http://www.waspomics.com/team/***
 
-<img width="2320" height="1684" alt="image" src="https://github.com/user-attachments/assets/f76cbcf3-117d-4467-b42e-eefccb6a51d4" />
 
 ------
 
