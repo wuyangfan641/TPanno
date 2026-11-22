@@ -8,7 +8,7 @@
 >
 > **Author:** Yangfan Wu
 >
-> **Affiliation:** School of Clinic Medical Science, Wannan Medical University, Wuhu, China
+> **Affiliation:** School of Clinical Medicine, Wannan Medical University, Wuhu, China
 >
 > **Email:** wuyf2025wmc@outlook.com
 >
